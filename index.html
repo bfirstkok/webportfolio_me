@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portfolio — Dark Gaming Theme</title>
+  <title>Khanathippakorn Namthachak Portfolio</title>
+
+  <meta name="description" content="Portfolio ของ Khanathippakorn Namthachak - Computer Engineering Student | Full-Stack, IoT & Digital Twin Enthusiast" />
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Prompt:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Prompt:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -32,7 +34,6 @@
       --radius-xl:24px;
       --radius-lg:18px;
       --radius-md:14px;
-      --hero-image:url('background.gif');
 
       --ease:cubic-bezier(.22,.61,.36,1);
       --transition:.32s var(--ease);
@@ -40,9 +41,7 @@
 
     *{ box-sizing:border-box; }
 
-    html{
-      scroll-behavior:smooth;
-    }
+    html{ scroll-behavior:smooth; }
 
     body{
       margin:0;
@@ -68,7 +67,7 @@
       mask-image:radial-gradient(circle at center, black 55%, transparent 95%);
     }
 
-    a, button, .card, .p-item, .pbtn, .filter-btn{
+    a, button, .card, .p-item, .pbtn, .filter-btn, .contact-item{
       transition:
         transform var(--transition),
         box-shadow var(--transition),
@@ -90,7 +89,7 @@
 
     .section{
       padding:84px 20px;
-      scroll-margin-top:90px;
+      scroll-margin-top:96px;
     }
 
     .section-title{
@@ -109,7 +108,15 @@
       line-height:1.8;
     }
 
-    /* Dock */
+    .card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius-xl);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(12px);
+      padding:28px;
+    }
+
     .dock{
       position:fixed;
       left:18px;
@@ -117,7 +124,7 @@
       transform:translateY(-50%);
       display:grid;
       gap:12px;
-      z-index:50;
+      z-index:100;
     }
 
     .pbtn{
@@ -135,7 +142,8 @@
       font-size:18px;
     }
 
-    .pbtn:hover{
+    .pbtn:hover,
+    .pbtn.active{
       transform:translateY(-4px);
       color:var(--primary);
       box-shadow:var(--glow);
@@ -148,7 +156,6 @@
       box-shadow:var(--glow);
     }
 
-    /* Hero */
     .hero{
       position:relative;
       min-height:100vh;
@@ -164,18 +171,8 @@
       position:absolute;
       inset:0;
       background:
-        linear-gradient(rgba(4,8,15,.72), rgba(4,8,15,.88)),
-        var(--hero-image) center/cover no-repeat;
-      transform:scale(1.04);
-      filter:saturate(1.05) contrast(1.05);
-    }
-
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 20% 25%, rgba(0,229,255,.08), transparent 20%),
+        linear-gradient(rgba(4,8,15,.74), rgba(4,8,15,.90)),
+        radial-gradient(circle at 20% 20%, rgba(0,229,255,.08), transparent 20%),
         radial-gradient(circle at 80% 70%, rgba(124,58,237,.12), transparent 24%);
     }
 
@@ -190,6 +187,19 @@
       border-radius:32px;
       backdrop-filter:blur(14px);
       box-shadow:0 18px 60px rgba(0,0,0,.42);
+    }
+
+    .hero-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      color:var(--primary);
+      font-size:14px;
+      margin-bottom:16px;
     }
 
     .title{
@@ -282,17 +292,6 @@
       box-shadow:var(--shadow);
     }
 
-    /* Cards */
-    .card{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:var(--radius-xl);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(12px);
-      padding:28px;
-    }
-
-    /* About */
     .about-grid{
       display:grid;
       grid-template-columns:240px 1fr;
@@ -305,28 +304,42 @@
       place-items:center;
     }
 
-    .about-photo .avatar-img{
+    .photo-wrap{
+      position:relative;
       width:200px;
       height:200px;
-      border-radius:24px;
-      object-fit:cover;
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:0 0 0 1px rgba(0,229,255,.10), 0 14px 34px rgba(0,0,0,.35);
-      image-rendering:auto;
     }
 
+    .avatar-img,
     .avatar{
       width:200px;
       height:200px;
       border-radius:24px;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 0 0 1px rgba(0,229,255,.10), 0 14px 34px rgba(0,0,0,.35);
+    }
+
+    .avatar-img{
+      object-fit:cover;
+      position:relative;
+      z-index:2;
+      background:#101827;
+    }
+
+    .avatar{
+      position:absolute;
+      inset:0;
       display:grid;
       place-items:center;
       font-weight:800;
       color:var(--primary);
       background:linear-gradient(135deg, rgba(0,229,255,.12), rgba(124,58,237,.18));
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:var(--glow);
       font-family:'Orbitron',sans-serif;
+      z-index:1;
+    }
+
+    .avatar.hidden{
+      display:none;
     }
 
     .avatar span{
@@ -351,7 +364,7 @@
 
     .about-facts li{
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       gap:10px;
       color:#dbe5f0;
       padding:12px 14px;
@@ -370,24 +383,33 @@
       border:1px solid rgba(0,229,255,.18);
       border-radius:8px;
       flex:0 0 24px;
+      margin-top:2px;
     }
 
-    .about-facts a{
+    .about-facts a,
+    .contact-item a{
       color:var(--primary);
       text-decoration:none;
+      word-break:break-word;
     }
 
-    .about-facts a:hover{
+    .about-facts a:hover,
+    .contact-item a:hover{
       text-decoration:underline;
     }
 
-    .about-skills{
+    .about-skills,
+    .pill-row,
+    .tag-row,
+    .project-tags{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
     }
 
-    .chip{
+    .chip,
+    .tag,
+    .project-tag{
       font-size:13px;
       padding:8px 12px;
       border-radius:999px;
@@ -402,14 +424,15 @@
       color:var(--primary);
     }
 
-    /* Skills */
     .skills-grid{
       display:grid;
       grid-template-columns:repeat(3, minmax(0,1fr));
       gap:20px;
     }
 
-    .s-col{
+    .s-col,
+    .r-col,
+    .contact-grid > div{
       background:rgba(255,255,255,.03);
       border:1px solid var(--line);
       border-radius:18px;
@@ -431,12 +454,14 @@
       color:var(--primary);
     }
 
-    .s-list{
+    .s-list,
+    .checklist,
+    .project-list{
       list-style:none;
       padding:0;
       margin:0;
       display:grid;
-      gap:12px;
+      gap:10px;
     }
 
     .s-item{
@@ -467,25 +492,10 @@
       box-shadow:0 0 16px rgba(0,229,255,.18);
     }
 
-    .pill-row{
-      margin-top:10px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-
-    /* Resume */
     .resume-grid{
       display:grid;
       grid-template-columns:repeat(2, minmax(0,1fr));
       gap:24px;
-    }
-
-    .r-col{
-      background:rgba(255,255,255,.03);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:18px;
     }
 
     .timeline{
@@ -522,59 +532,61 @@
       box-shadow:0 0 0 4px rgba(0,229,255,.10), 0 0 18px rgba(0,229,255,.22);
     }
 
-    .edu-item .title{
+    .item-title{
       font-size:16px;
       font-weight:700;
       color:#fff;
+      line-height:1.6;
     }
 
-    .edu-item .meta{
+    .meta{
       color:var(--muted);
       font-size:14px;
+      line-height:1.7;
     }
 
-    .proj{
+    .exp-card,
+    .project-card{
       background:rgba(255,255,255,.02);
       border:1px solid rgba(255,255,255,.08);
       border-radius:14px;
       padding:16px;
     }
 
-    .proj h4,
-    .proj h5{
-      color:#fff;
+    .exp-card + .exp-card,
+    .project-card + .project-card{
+      margin-top:14px;
     }
 
-    .proj p{
-      color:#cbd5e1 !important;
-      line-height:1.8;
-    }
-
-    .tag-row{
+    .exp-head,
+    .project-head{
       display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:8px;
       flex-wrap:wrap;
-      gap:8px;
-      margin-top:8px;
     }
 
-    .tag{
-      font-size:12px;
+    .date-badge{
+      white-space:nowrap;
       padding:6px 10px;
       border-radius:999px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      color:#dbeafe;
+      font-size:12px;
+      color:var(--primary);
+      background:rgba(0,229,255,.08);
+      border:1px solid rgba(0,229,255,.16);
     }
 
-    .checklist{
-      list-style:none;
-      padding:0;
-      margin:8px 0 0;
-      display:grid;
-      gap:8px;
+    .exp-card p,
+    .project-card p{
+      color:#cbd5e1;
+      line-height:1.8;
+      margin:0 0 10px;
     }
 
-    .checklist li{
+    .checklist li,
+    .project-list li{
       display:flex;
       align-items:flex-start;
       gap:8px;
@@ -582,12 +594,47 @@
       line-height:1.7;
     }
 
-    .checklist i{
+    .checklist i,
+    .project-list i{
       color:var(--primary);
-      margin-top:3px;
+      margin-top:4px;
+      flex:0 0 auto;
     }
 
-    /* Portfolio */
+    .portfolio-grid{
+      display:grid;
+      gap:18px;
+    }
+
+    .project-card .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .action-btn{
+      text-decoration:none;
+      font-size:13px;
+      font-weight:600;
+      padding:10px 14px;
+      border-radius:12px;
+      background:linear-gradient(135deg, rgba(0,229,255,.14), rgba(124,58,237,.18));
+      border:1px solid rgba(0,229,255,.16);
+      color:#fff;
+      box-shadow:var(--glow);
+    }
+
+    .action-btn.alt{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:none;
+    }
+
+    .action-btn:hover{
+      transform:translateY(-2px);
+    }
+
     .filter-row{
       display:flex;
       flex-wrap:wrap;
@@ -612,112 +659,43 @@
       box-shadow:var(--glow);
     }
 
-    .pgrid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
-      gap:24px;
-    }
-
-    .p-item{
-      position:relative;
-      display:flex;
-      flex-direction:column;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:18px;
-      overflow:hidden;
-      box-shadow:var(--shadow);
-    }
-
-    .p-item:hover{
-      transform:translateY(-6px);
-      border-color:rgba(0,229,255,.16);
-      box-shadow:0 16px 38px rgba(0,0,0,.46), 0 0 0 1px rgba(0,229,255,.10);
-    }
-
-    .p-thumb{
-      aspect-ratio:16/9;
-      background:#101827 center/cover no-repeat;
-      display:block;
-    }
-
-    .p-body{
-      padding:16px 16px 18px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      flex:1;
-    }
-
-    .p-title{
-      font-size:16px;
-      font-weight:700;
-      margin:0;
-      color:#fff;
-    }
-
-    .p-desc{
-      font-size:13px;
-      color:#cbd5e1;
-      margin:0;
-      line-height:1.7;
-    }
-
-    .p-tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-top:4px;
-    }
-
-    .p-tag{
-      font-size:11px;
-      padding:5px 8px;
-      border-radius:999px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      color:#dbeafe;
-    }
-
-    .p-actions{
-      margin-top:auto;
-      display:flex;
-      gap:10px;
-    }
-
-    .p-actions a{
-      flex:1;
-      text-align:center;
-      text-decoration:none;
-      font-size:12px;
-      font-weight:600;
-      padding:9px 10px;
-      border-radius:10px;
-      background:linear-gradient(135deg, rgba(0,229,255,.14), rgba(124,58,237,.18));
-      border:1px solid rgba(0,229,255,.16);
-      color:#fff;
-      box-shadow:var(--glow);
-    }
-
-    .p-actions a.alt{
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow:none;
-    }
-
-    .p-actions a:hover{
-      transform:translateY(-2px);
-    }
-
     .hidden{
       display:none !important;
     }
 
-    /* reveal */
+    .contact-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:20px;
+    }
+
+    .contact-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .contact-item{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      color:#dbe5f0;
+    }
+
+    .contact-item i{
+      color:var(--primary);
+      font-size:18px;
+      margin-top:2px;
+    }
+
     .reveal{
       opacity:0;
       transform:translateY(24px);
       transition:opacity .7s var(--ease), transform .7s var(--ease);
+      will-change:opacity, transform;
     }
 
     .reveal.show{
@@ -725,7 +703,12 @@
       transform:none;
     }
 
-    /* Responsive */
+    footer{
+      padding:26px 20px 50px;
+      color:var(--muted);
+      text-align:center;
+    }
+
     @media (max-width: 980px){
       .skills-grid{
         grid-template-columns:repeat(2, minmax(0,1fr));
@@ -733,18 +716,20 @@
     }
 
     @media (max-width: 900px){
-      .about-grid{
+      .about-grid,
+      .resume-grid,
+      .contact-grid{
         grid-template-columns:1fr;
       }
+
       .about-photo{
         order:-1;
       }
+
       .about-facts{
         grid-template-columns:1fr;
       }
-      .resume-grid{
-        grid-template-columns:1fr;
-      }
+
       .dock{
         left:50%;
         top:auto;
@@ -763,139 +748,143 @@
       .section{
         padding:72px 16px;
       }
+
       .card{
         padding:22px;
       }
+
       .skills-grid{
         grid-template-columns:1fr;
       }
+
       .s-item{
         grid-template-columns:1fr;
       }
-      .pgrid{
-        gap:18px;
-      }
+
       .hero-inner{
         padding:24px 18px;
       }
-      .about-photo .avatar-img,
+
+      .photo-wrap,
+      .avatar-img,
       .avatar{
         width:160px;
         height:160px;
       }
     }
+
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior:auto; }
+      *, *::before, *::after{
+        animation:none !important;
+        transition:none !important;
+      }
+      .reveal{
+        opacity:1 !important;
+        transform:none !important;
+      }
+    }
   </style>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const buttons = document.querySelectorAll('.filter-btn');
-      const items = document.querySelectorAll('.p-item');
-
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          buttons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-
-          const f = btn.dataset.filter;
-          items.forEach(it => {
-            if (f === 'all' || it.dataset.cat.split(',').includes(f)) {
-              it.classList.remove('hidden');
-            } else {
-              it.classList.add('hidden');
-            }
-          });
-        });
-      });
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-          }
-        });
-      }, { threshold: 0.12 });
-
-      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    });
-  </script>
 </head>
 
 <body>
   <nav class="dock" aria-label="Navigation dock">
-    <a class="pbtn home" href="#" title="Home"><i class="bi bi-house-door"></i></a>
+    <a class="pbtn home active" href="#top" title="Home"><i class="bi bi-house-door"></i></a>
     <a class="pbtn" href="#about" title="About"><i class="bi bi-person"></i></a>
     <a class="pbtn" href="#skills" title="Skills"><i class="bi bi-stars"></i></a>
     <a class="pbtn" href="#resume" title="Resume"><i class="bi bi-file-earmark-text"></i></a>
-    <a class="pbtn" href="#portfolio" title="Projects"><i class="bi bi-window"></i></a>
+    <a class="pbtn" href="#projects" title="Projects"><i class="bi bi-window"></i></a>
+    <a class="pbtn" href="#contact" title="Contact"><i class="bi bi-envelope"></i></a>
   </nav>
 
-  <header class="hero">
-    <div class="hero-inner">
+  <header id="top" class="hero">
+    <div class="hero-inner reveal show">
+      <div class="hero-badge">
+        <i class="bi bi-cpu"></i>
+        Computer Engineering Student
+      </div>
+
       <h1 class="title"><span>Khanathippakorn Namthachak</span></h1>
-      <p class="subtitle">Computer Engineering Student · Full-Stack Developer · IoT & AI Enthusiast</p>
+      <p class="subtitle">
+        Computer Engineering Student · IoT Enthusiast · Web & Application Developer · Digital Twin Learner
+      </p>
 
       <div class="social" aria-label="social links">
-        <a class="fb" href="https://www.facebook.com/khanathippakorn.namthachak" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+        <a href="https://www.facebook.com/khanathippakorn.namthachak" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
           <i class="bi bi-facebook"></i>
         </a>
-        <a class="ig" href="https://www.instagram.com/b_first_kok/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
-          <i class="bi bi-instagram"></i>
-        </a>
-        <a class="gh" href="https://github.com/bfirstkok" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+        <a href="https://github.com/bfirstkok" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
           <i class="bi bi-github"></i>
+        </a>
+        <a href="https://dancing-melba-1c610c.netlify.app/" target="_blank" rel="noopener" title="Website" aria-label="Website">
+          <i class="bi bi-globe2"></i>
+        </a>
+        <a href="mailto:bfirstkok@gmail.com" title="Email" aria-label="Email">
+          <i class="bi bi-envelope-fill"></i>
         </a>
       </div>
 
       <div class="cta-row">
-        <a class="pxbtn" href="#portfolio"><i class="bi bi-controller"></i> VIEW PROJECTS</a>
+        <a class="pxbtn" href="#projects"><i class="bi bi-kanban"></i> VIEW PROJECTS</a>
         <a class="pxbtn alt" href="#about"><i class="bi bi-person-badge"></i> ABOUT ME</a>
       </div>
     </div>
   </header>
 
-  <section id="about" class="section about reveal" aria-labelledby="about-title">
+  <section id="about" class="section reveal" aria-labelledby="about-title">
     <div class="container">
       <div class="card">
         <h2 id="about-title" class="section-title">เกี่ยวกับฉัน</h2>
         <p class="section-sub">
-          สวัสดีครับ ผมชื่อเฟิร์ส นักศึกษาวิศวกรรมคอมพิวเตอร์ที่หลงใหลงานพัฒนาระบบทั้งซอฟต์แวร์และฮาร์ดแวร์
-          มีความถนัดในการพัฒนาเว็บด้วย Django, Python, HTML/CSS/JavaScript รวมถึงการทำโปรเจกต์ IoT และไมโครคอนโทรลเลอร์อย่างจริงจัง
-          ผมเป็นคนที่ลงมือทำ เรียนรู้ไว และชอบสร้างระบบตั้งแต่เริ่มต้นจนใช้งานได้จริง
-          ตอนนี้กำลังพัฒนาตัวเองเพื่อก้าวสู่การเป็น Full-Stack Developer และ AI Developer
+          นักศึกษาคณะวิศวกรรมศาสตร์ สาขาวิศวกรรมคอมพิวเตอร์ มีความสนใจด้านระบบ IoT
+          การพัฒนาเว็บแอปพลิเคชัน และการออกแบบระบบที่เชื่อมโยงทั้งซอฟต์แวร์และฮาร์ดแวร์เข้าด้วยกัน
         </p>
 
         <div class="about-grid">
           <div class="about-photo">
-            <img id="mePhoto" class="avatar-img" src="images/me.jpg" alt="รูปของ Khanathippakorn Namthachak" loading="lazy"
-                 onload="document.getElementById('avatarFallback')?.classList.add('hidden')"
-                 onerror="this.classList.add('hidden')" />
-            <div class="avatar" id="avatarFallback"><span>KN</span></div>
+            <div class="photo-wrap">
+              <img
+                id="mePhoto"
+                class="avatar-img"
+                src="images/me.jpg"
+                alt="รูปของ Khanathippakorn Namthachak"
+                loading="lazy"
+              />
+              <div class="avatar" id="avatarFallback"><span>KN</span></div>
+            </div>
           </div>
 
           <div class="about-body">
             <p>
-              สนใจพัฒนาระบบเว็บด้วย Django, การทำระบบฟอรัม/ระบบสมาชิก, การออกแบบฐานข้อมูล รวมถึงงาน Embedded
-              ที่ผสานซอฟต์แวร์กับฮาร์ดแวร์ เช่น Arduino, EEPROM และเซนเซอร์ต่าง ๆ
+              มีประสบการณ์ในการพัฒนาโปรเจกต์ด้านซอฟต์แวร์และฮาร์ดแวร์เบื้องต้น โดยเฉพาะงานเว็บระบบ
+              ระบบจัดการข้อมูล และแนวคิด Digital Twin สามารถออกแบบและพัฒนาระบบที่นำไปใช้ได้จริง
+              โดยเฉพาะในด้านสุขภาพ ระบบอัตโนมัติ และสภาพแวดล้อมอัจฉริยะ
+            </p>
+
+            <p>
+              พร้อมเรียนรู้เทคโนโลยีใหม่ ๆ อย่างรวดเร็ว มีประสบการณ์ทำงานร่วมกับผู้อื่นแบบเป็นทีม
+              และสามารถวิเคราะห์ แก้ไขปัญหา ทดสอบระบบ และปรับปรุงงานอย่างต่อเนื่อง
             </p>
 
             <ul class="about-facts">
-              <li><i class="bi bi-mortarboard"></i> กำลังศึกษา: Computer Engineering</li>
-              <li><i class="bi bi-code-slash"></i> ถนัด: Python, JavaScript (React), Django</li>
-              <li><i class="bi bi-cpu"></i> สนใจ: IoT, Computer Vision, AI/ML เบื้องต้น</li>
-              <li><i class="bi bi-person"></i> อายุ: 20 ปี</li>
-              <li><i class="bi bi-calendar-event"></i> วันเกิด: 10 สิงหาคม 2005</li>
-              <li><i class="bi bi-envelope"></i> อีเมล: <a href="mailto:bfirstok@gmail.com">bfirstok@gmail.com</a></li>
+              <li><i class="bi bi-telephone"></i> โทร: 0956734701</li>
+              <li><i class="bi bi-envelope"></i> อีเมล: <a href="mailto:bfirstkok@gmail.com">bfirstkok@gmail.com</a></li>
+              <li><i class="bi bi-envelope-paper"></i> อีเมลสำรอง: <a href="mailto:khanathippakorn@gmail.com">khanathippakorn@gmail.com</a></li>
               <li><i class="bi bi-geo-alt"></i> ที่อยู่: ขอนแก่น, ประเทศไทย</li>
+              <li><i class="bi bi-github"></i> GitHub: <a href="https://github.com/bfirstkok" target="_blank" rel="noopener">bfirstkok</a></li>
+              <li><i class="bi bi-globe2"></i> Website: <a href="https://dancing-melba-1c610c.netlify.app/" target="_blank" rel="noopener">Portfolio Website</a></li>
+              <li><i class="bi bi-facebook"></i> Facebook: <a href="https://www.facebook.com/khanathippakorn.namthachak" target="_blank" rel="noopener">Khanathippakorn Namthachak</a></li>
             </ul>
 
             <div class="about-skills" aria-label="skill chips">
-              <span class="chip primary">Python</span>
-              <span class="chip">Django</span>
-              <span class="chip">JavaScript</span>
-              <span class="chip">React</span>
-              <span class="chip">SQLite</span>
+              <span class="chip primary">IoT</span>
+              <span class="chip">ESP32</span>
+              <span class="chip">Digital Twin</span>
+              <span class="chip">Next.js / React</span>
+              <span class="chip">Spring Boot</span>
+              <span class="chip">Node.js</span>
               <span class="chip">REST API</span>
-              <span class="chip">IoT</span>
+              <span class="chip">MySQL / MariaDB</span>
             </div>
           </div>
         </div>
@@ -903,47 +892,58 @@
     </div>
   </section>
 
-  <section id="skills" class="section skills reveal" aria-labelledby="skills-title">
+  <section id="skills" class="section reveal" aria-labelledby="skills-title">
     <div class="container">
       <div class="card">
         <h2 id="skills-title" class="section-title">ทักษะ</h2>
-        <p class="section-sub">เทคโนโลยีและเครื่องมือที่ใช้บ่อย</p>
+        <p class="section-sub">เครื่องมือ ภาษา และเทคโนโลยีที่ใช้งานได้</p>
 
         <div class="skills-grid">
           <div class="s-col">
-            <h3 class="s-heading"><i class="bi bi-code-slash"></i> Languages</h3>
+            <h3 class="s-heading"><i class="bi bi-code-slash"></i> ภาษาโปรแกรม</h3>
             <ul class="s-list">
-              <li class="s-item"><span>Python</span><div class="meter"><div class="fill" style="--w:90%"></div></div></li>
+              <li class="s-item"><span>Python</span><div class="meter"><div class="fill" style="--w:88%"></div></div></li>
+              <li class="s-item"><span>Java</span><div class="meter"><div class="fill" style="--w:72%"></div></div></li>
               <li class="s-item"><span>JavaScript</span><div class="meter"><div class="fill" style="--w:80%"></div></div></li>
-              <li class="s-item"><span>SQL</span><div class="meter"><div class="fill" style="--w:70%"></div></div></li>
+              <li class="s-item"><span>HTML/CSS</span><div class="meter"><div class="fill" style="--w:90%"></div></div></li>
+              <li class="s-item"><span>SQL</span><div class="meter"><div class="fill" style="--w:78%"></div></div></li>
+              <li class="s-item"><span>C/C++ สำหรับ Arduino / ESP32</span><div class="meter"><div class="fill" style="--w:82%"></div></div></li>
             </ul>
           </div>
 
           <div class="s-col">
-            <h3 class="s-heading"><i class="bi bi-box-seam"></i> Frameworks & Libs</h3>
+            <h3 class="s-heading"><i class="bi bi-box-seam"></i> Framework / Platform</h3>
             <ul class="s-list">
               <li class="s-item"><span>Django</span><div class="meter"><div class="fill" style="--w:85%"></div></div></li>
-              <li class="s-item"><span>React</span><div class="meter"><div class="fill" style="--w:70%"></div></div></li>
-              <li class="s-item"><span>REST API</span><div class="meter"><div class="fill" style="--w:75%"></div></div></li>
+              <li class="s-item"><span>Next.js / React</span><div class="meter"><div class="fill" style="--w:76%"></div></div></li>
+              <li class="s-item"><span>Spring Boot</span><div class="meter"><div class="fill" style="--w:70%"></div></div></li>
+              <li class="s-item"><span>Node.js</span><div class="meter"><div class="fill" style="--w:72%"></div></div></li>
+              <li class="s-item"><span>Git / GitHub</span><div class="meter"><div class="fill" style="--w:82%"></div></div></li>
+              <li class="s-item"><span>VS Code</span><div class="meter"><div class="fill" style="--w:90%"></div></div></div></li>
             </ul>
-            <div class="pill-row" aria-label="framework chips">
-              <span class="chip">Tailwind</span>
-              <span class="chip">Bootstrap</span>
-              <span class="chip">OpenCV</span>
+
+            <div class="pill-row">
+              <span class="chip">XAMPP / PHPMyAdmin</span>
+              <span class="chip">HTTP / REST API</span>
+              <span class="chip">Digital Twin Simulation</span>
+              <span class="chip">Wokwi</span>
             </div>
           </div>
 
           <div class="s-col">
-            <h3 class="s-heading"><i class="bi bi-tools"></i> Tools & Platforms</h3>
+            <h3 class="s-heading"><i class="bi bi-hdd-network"></i> ฮาร์ดแวร์ / Database</h3>
             <ul class="s-list">
-              <li class="s-item"><span>Git/GitHub</span><div class="meter"><div class="fill" style="--w:75%"></div></div></li>
-              <li class="s-item"><span>SQLite</span><div class="meter"><div class="fill" style="--w:80%"></div></div></li>
-              <li class="s-item"><span>IoT (ESP32)</span><div class="meter"><div class="fill" style="--w:65%"></div></div></li>
+              <li class="s-item"><span>ESP32</span><div class="meter"><div class="fill" style="--w:84%"></div></div></li>
+              <li class="s-item"><span>Arduino</span><div class="meter"><div class="fill" style="--w:80%"></div></div></li>
+              <li class="s-item"><span>SQLite</span><div class="meter"><div class="fill" style="--w:75%"></div></div></li>
+              <li class="s-item"><span>MySQL / MariaDB</span><div class="meter"><div class="fill" style="--w:82%"></div></div></li>
             </ul>
-            <div class="pill-row" aria-label="tool chips">
-              <span class="chip">VS Code</span>
-              <span class="chip">Postman</span>
-              <span class="chip">Figma</span>
+
+            <div class="pill-row">
+              <span class="chip">IoT / Embedded Systems</span>
+              <span class="chip">Sensor Integration</span>
+              <span class="chip">System Testing</span>
+              <span class="chip">Problem Solving</span>
             </div>
           </div>
         </div>
@@ -951,68 +951,238 @@
     </div>
   </section>
 
-  <section id="resume" class="section resume reveal" aria-labelledby="resume-title">
+  <section id="resume" class="section reveal" aria-labelledby="resume-title">
     <div class="container">
       <div class="card">
-        <h2 id="resume-title" class="section-title">Resume</h2>
-        <p class="section-sub">ประวัติการศึกษาและประสบการณ์โปรเจกต์</p>
+        <h2 id="resume-title" class="section-title">ประวัติการศึกษาและประสบการณ์</h2>
+        <p class="section-sub">ข้อมูลอ้างอิงตาม resume ล่าสุด</p>
 
         <div class="resume-grid">
           <div class="r-col">
-            <h3 class="r-heading"><i class="bi bi-mortarboard"></i> Education</h3>
+            <h3 class="r-heading"><i class="bi bi-mortarboard"></i> การศึกษา</h3>
             <ul class="timeline">
-              <li class="edu-item">
+              <li>
                 <span class="timeline-point" aria-hidden="true"></span>
-                <div class="title">วิศวกรรมศาสตร์ สาขาวิศวกรรมคอมพิวเตอร์</div>
-                <div class="meta">มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น · 2023 – ปัจจุบัน</div>
+                <div class="item-title">วิศวกรรมศาสตร์ สาขาวิศวกรรมคอมพิวเตอร์</div>
+                <div class="meta">
+                  มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น<br>
+                  Jun. 2023 - ปัจจุบัน<br>
+                  ปัจจุบันกำลังอยู่ชั้นปีที่ 3
+                </div>
+              </li>
+              <li>
+                <span class="timeline-point" aria-hidden="true"></span>
+                <div class="item-title">โรงเรียนไฮเทคบริหารธุรกิจ</div>
+                <div class="meta">
+                  วิทย์ - คณิต<br>
+                  Apr. 2017 - 2022
+                </div>
               </li>
             </ul>
           </div>
 
           <div class="r-col">
-            <h3 class="r-heading"><i class="bi bi-briefcase"></i> Experience / Projects</h3>
-            <div class="proj">
-              <h4 style="margin:0 0 6px;">Dino Forum – ระบบเว็บฟอรัมสนทนา</h4>
-              <p style="margin:0 0 10px;">
-                เว็บฟอรัมสำหรับพูดคุย แลกเปลี่ยนข้อมูล และจัดหมวดหมู่กระทู้ พัฒนาด้วย Django
-                พร้อมระบบสมาชิกและโปรไฟล์ผู้ใช้ ดีไซน์สมัยใหม่และใช้งานง่าย
-              </p>
+            <h3 class="r-heading"><i class="bi bi-briefcase"></i> ประวัติการทำงาน</h3>
 
-              <h5 style="margin:12px 0 6px;">คุณสมบัติเด่น</h5>
-              <ul class="checklist">
-                <li><i class="bi bi-check2-circle"></i> ระบบสมาชิก (Authentication) ด้วย Django-allauth: สมัคร/ล็อกอิน/รีเซ็ต/จัดการบัญชี</li>
-                <li><i class="bi bi-check2-circle"></i> กระทู้และความคิดเห็น: สร้าง/ตอบกลับ/แก้ไข/จัดหมวดหมู่ด้วย Category และ Tag</li>
-                <li><i class="bi bi-check2-circle"></i> ดีไซน์ทันสมัย + ธีมไดโนเสาร์: Bootstrap 5 + CSS ปรับแต่งเอง มี Dark Theme</li>
-                <li><i class="bi bi-check2-circle"></i> โปรไฟล์ผู้ใช้: รูปโปรไฟล์, Bio, จำนวนโพสต์, วันที่เข้าร่วม</li>
-                <li><i class="bi bi-check2-circle"></i> ค้นหากระทู้: ตามชื่อ แท็ก หรือหมวดหมู่</li>
-                <li><i class="bi bi-check2-circle"></i> กระทู้ยอดนิยม (Trending): จากจำนวนการเข้าชมและคอมเมนต์</li>
-                <li><i class="bi bi-check2-circle"></i> Redis Caching: ลดภาระฐานข้อมูล ช่วยให้โหลดเร็วขึ้น</li>
-              </ul>
-
-              <h5 style="margin:14px 0 6px;">เทคโนโลยีที่ใช้</h5>
-              <div class="tag-row">
-                <span class="tag">Django</span>
-                <span class="tag">Django-allauth</span>
-                <span class="tag">SQLite</span>
-                <span class="tag">Redis</span>
-                <span class="tag">HTML5</span>
-                <span class="tag">CSS3</span>
-                <span class="tag">Bootstrap 5</span>
-                <span class="tag">JavaScript</span>
-                <span class="tag">Django Template</span>
-                <span class="tag">Pillow</span>
-                <span class="tag">Git & GitHub</span>
+            <div class="exp-card">
+              <div class="exp-head">
+                <div>
+                  <div class="item-title">Pcampus Studio — Data Dictionary</div>
+                </div>
+                <div class="date-badge">Feb. 2022</div>
               </div>
+              <p>
+                เคยทำงานสร้างไฟล์พจนานุกรมข้อมูลให้กับทีมงาน เพื่อทำหน้าที่เป็น Data Dictionary
+                คอยออกแบบฐานข้อมูลและจัดทำ Data Dictionary สำหรับระบบเว็บบริหารร้านอาหารด้านเดลิเวอรี
+                เพื่อสื่อสารข้อมูลและโครงสร้างของระบบกับทีมวิเคราะห์และออกแบบซอฟต์แวร์ร่วมกัน
+              </p>
+            </div>
 
-              <h5 style="margin:14px 0 6px;">ความรับผิดชอบ</h5>
-              <ul class="checklist">
-                <li><i class="bi bi-check2-circle"></i> ออกแบบฐานข้อมูล: User, Profile, Thread, Post, Category, Tag</li>
-                <li><i class="bi bi-check2-circle"></i> พัฒนาระบบฟอรัม: สร้างกระทู้/แสดงผล/คอมเมนต์/โปรไฟล์ผู้ใช้</li>
-                <li><i class="bi bi-check2-circle"></i> ออกแบบ UI/UX รองรับ Desktop & Mobile พร้อม Dark Mode</li>
-                <li><i class="bi bi-check2-circle"></i> สร้างธีมและพื้นหลังลาย Dinosaur เพิ่มเอกลักษณ์</li>
-                <li><i class="bi bi-check2-circle"></i> ปรับประสิทธิภาพด้วย Redis Caching</li>
-                <li><i class="bi bi-check2-circle"></i> จัดการ Repository/Commit/Documentation บน GitHub</li>
-              </ul>
+            <div class="exp-card">
+              <div class="exp-head">
+                <div>
+                  <div class="item-title">Bonlabofficial</div>
+                </div>
+                <div class="date-badge">Aug. 2026</div>
+              </div>
+              <p>
+                ทำโปรเจกจบช่วงร่วมกับ Bonlabofficial โดยเป็นโปรเจกต์ระบบติดตามผู้ป่วยอัจฉริยะและจัดการคิว
+              </p>
+            </div>
+
+            <h3 class="r-heading" style="margin-top:18px;"><i class="bi bi-lightning"></i> ความสามารถ</h3>
+            <ul class="checklist">
+              <li><i class="bi bi-check2-circle"></i> เคยทำงานร่วมกับองค์กรจริง</li>
+              <li><i class="bi bi-check2-circle"></i> ทำงานแบบเป็นทีมได้</li>
+              <li><i class="bi bi-check2-circle"></i> มีประสบการณ์ในการออกแบบและพัฒนาระบบต้นแบบตั้งแต่แนวคิดจนถึงการใช้งานจริง</li>
+              <li><i class="bi bi-check2-circle"></i> มีทักษะในการแก้ปัญหา ทดสอบระบบ และปรับปรุงงานอย่างต่อเนื่อง</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section reveal" aria-labelledby="projects-title">
+    <div class="container">
+      <div class="card">
+        <h2 id="projects-title" class="section-title">ผลงานและโครงงาน</h2>
+        <p class="section-sub">โปรเจกต์ที่สอดคล้องกับ resume</p>
+
+        <div class="filter-row" role="tablist" aria-label="filters">
+          <button class="filter-btn active" data-filter="all" type="button">ทั้งหมด</button>
+          <button class="filter-btn" data-filter="health" type="button">Healthcare</button>
+          <button class="filter-btn" data-filter="iot" type="button">IoT</button>
+          <button class="filter-btn" data-filter="web" type="button">Web</button>
+        </div>
+
+        <div class="portfolio-grid">
+          <article class="project-card project-item" data-cat="health,web">
+            <div class="project-head">
+              <div>
+                <h3 class="item-title" style="margin:0;">ระบบติดตามผู้ป่วยและจัดการคิว</h3>
+                <div class="meta">โครงงานหลัก / โรงพยาบาล</div>
+              </div>
+              <div class="date-badge">Healthcare System</div>
+            </div>
+
+            <p>
+              พัฒนาระบบติดตามผู้ป่วยและจัดการคิวที่เชื่อมโยงข้อมูลทางการแพทย์เบื้องต้น
+              ระบบคัดกรอง และลำดับผู้ป่วยแบบอัตโนมัติ
+            </p>
+
+            <ul class="project-list">
+              <li><i class="bi bi-check2-circle"></i> พัฒนาเว็บแอปสำหรับติดตามและจัดการลำดับผู้ป่วยในสถานพยาบาล</li>
+              <li><i class="bi bi-check2-circle"></i> สร้างฐานข้อมูลคนไข้ การลงทะเบียน และแสดงผลสถานะการคัดกรอง</li>
+              <li><i class="bi bi-check2-circle"></i> ออกแบบส่วนสำหรับบันทึกอาการเบื้องต้นและเชื่อมต่อข้อมูลผู้ป่วย</li>
+              <li><i class="bi bi-check2-circle"></i> พัฒนา Backend ฐานข้อมูล และส่วนติดต่อผู้ใช้ เพื่อรองรับการใช้งานแบบ AI/ML ในระบบ</li>
+            </ul>
+
+            <div class="project-tags" style="margin-top:12px;">
+              <span class="project-tag">Healthcare</span>
+              <span class="project-tag">Web Application</span>
+              <span class="project-tag">Database Design</span>
+              <span class="project-tag">AI/ML Support</span>
+            </div>
+          </article>
+
+          <article class="project-card project-item" data-cat="iot">
+            <div class="project-head">
+              <div>
+                <h3 class="item-title" style="margin:0;">Smart Medicine Storage Room</h3>
+                <div class="meta">โครงงาน IoT + Digital Twin</div>
+              </div>
+              <div class="date-badge">IoT Project</div>
+            </div>
+
+            <p>
+              พัฒนาระบบห้องเก็บยาอัจฉริยะด้วย ESP32 และเซนเซอร์สำหรับตรวจวัดสภาพแวดล้อม
+              พร้อมแสดงผลและควบคุมผ่าน Dashboard และแนวคิด Digital Twin
+            </p>
+
+            <ul class="project-list">
+              <li><i class="bi bi-check2-circle"></i> พัฒนาระบบห้องเก็บยาจำลองด้วย ESP32 และเซนเซอร์สำหรับตรวจวัดสภาพแวดล้อม</li>
+              <li><i class="bi bi-check2-circle"></i> เชื่อมต่อข้อมูลแบบเรียลไทม์ผ่าน API และพัฒนาแดชบอร์ดติดตามสถานะ</li>
+              <li><i class="bi bi-check2-circle"></i> วิเคราะห์และจำลองพฤติกรรมของระบบด้วยแนวคิด Digital Twin</li>
+            </ul>
+
+            <div class="project-tags" style="margin-top:12px;">
+              <span class="project-tag">ESP32</span>
+              <span class="project-tag">IoT</span>
+              <span class="project-tag">Dashboard</span>
+              <span class="project-tag">Digital Twin</span>
+              <span class="project-tag">REST API</span>
+            </div>
+          </article>
+
+          <article class="project-card project-item" data-cat="web">
+            <div class="project-head">
+              <div>
+                <h3 class="item-title" style="margin:0;">Dino Forum Web Application</h3>
+                <div class="meta">โครงงานพัฒนาเว็บ</div>
+              </div>
+              <div class="date-badge">Web Project</div>
+            </div>
+
+            <p>
+              พัฒนาระบบเว็บบอร์ดด้วย Django สำหรับการตั้งกระทู้ ตอบกลับ และจัดการเนื้อหา
+              พร้อมระบบสมาชิกและการแสดงผลแบบ Responsive
+            </p>
+
+            <ul class="project-list">
+              <li><i class="bi bi-check2-circle"></i> พัฒนาเว็บบอร์ดด้วย Django โดยมีการจัดการหมวดหมู่ผู้ใช้และการตั้งกระทู้</li>
+              <li><i class="bi bi-check2-circle"></i> สร้างระบบล็อกอินและส่วนติดต่อผู้ใช้ที่รองรับการใช้งานบนหลายอุปกรณ์</li>
+              <li><i class="bi bi-check2-circle"></i> พัฒนาแอปฝึกฝนและต่อยอดทักษะจาก Web Programming, Spring Boot, ESP32 และระบบเว็บโดยรวม</li>
+            </ul>
+
+            <div class="project-tags" style="margin-top:12px;">
+              <span class="project-tag">Django</span>
+              <span class="project-tag">Web Programming</span>
+              <span class="project-tag">Responsive UI</span>
+              <span class="project-tag">Authentication</span>
+            </div>
+
+            <div class="actions">
+              <a class="action-btn alt" href="https://github.com/bfirstkok" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section reveal" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="card">
+        <h2 id="contact-title" class="section-title">ติดต่อ</h2>
+        <p class="section-sub">ช่องทางติดต่อสำหรับงาน โปรเจกต์ และการร่วมพัฒนา</p>
+
+        <div class="contact-grid">
+          <div>
+            <h3 class="r-heading"><i class="bi bi-person-lines-fill"></i> Contact Info</h3>
+            <div class="contact-list">
+              <div class="contact-item">
+                <i class="bi bi-telephone-fill"></i>
+                <div>0956734701</div>
+              </div>
+              <div class="contact-item">
+                <i class="bi bi-envelope-fill"></i>
+                <div><a href="mailto:bfirstkok@gmail.com">bfirstkok@gmail.com</a></div>
+              </div>
+              <div class="contact-item">
+                <i class="bi bi-envelope-paper-fill"></i>
+                <div><a href="mailto:khanathippakorn@gmail.com">khanathippakorn@gmail.com</a></div>
+              </div>
+              <div class="contact-item">
+                <i class="bi bi-github"></i>
+                <div><a href="https://github.com/bfirstkok" target="_blank" rel="noopener">github.com/bfirstkok</a></div>
+              </div>
+              <div class="contact-item">
+                <i class="bi bi-globe2"></i>
+                <div><a href="https://dancing-melba-1c610c.netlify.app/" target="_blank" rel="noopener">Portfolio Website</a></div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="r-heading"><i class="bi bi-lightbulb"></i> จุดเด่น</h3>
+            <div class="contact-list">
+              <div class="contact-item">
+                <i class="bi bi-check2-circle"></i>
+                <div>สนใจงาน IoT, Embedded และ Web Application</div>
+              </div>
+              <div class="contact-item">
+                <i class="bi bi-check2-circle"></i>
+                <div>มีพื้นฐานการออกแบบระบบและเชื่อมต่อฐานข้อมูล</div>
+              </div>
+              <div class="contact-item">
+                <i class="bi bi-check2-circle"></i>
+                <div>สามารถพัฒนาระบบต้นแบบและปรับปรุงจนใช้งานได้จริง</div>
+              </div>
+              <div class="contact-item">
+                <i class="bi bi-check2-circle"></i>
+                <div>พร้อมเรียนรู้และทำงานร่วมกับทีม</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1020,64 +1190,88 @@
     </div>
   </section>
 
-  <section id="portfolio" class="section portfolio reveal" aria-labelledby="portfolio-title">
-    <div class="container">
-      <div class="card">
-        <h2 id="portfolio-title" class="section-title">ผลงาน (Portfolio)</h2>
-        <p class="section-sub">ตัวอย่างโปรเจกต์ที่เคยพัฒนา สามารถเพิ่มผลงานใหม่ได้ตลอดเวลา</p>
+  <footer>
+    © 2026 Khanathippakorn Namthachak · Portfolio
+  </footer>
 
-        <div class="filter-row" role="tablist" aria-label="filters">
-          <button class="filter-btn active" data-filter="all" aria-selected="true">ทั้งหมด</button>
-          <button class="filter-btn" data-filter="web">Web</button>
-          <button class="filter-btn" data-filter="game">Game</button>
-          <button class="filter-btn" data-filter="iot">IoT</button>
-        </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const avatarImg = document.getElementById('mePhoto');
+      const avatarFallback = document.getElementById('avatarFallback');
 
-        <div class="pgrid" id="pgrid">
-          <article class="p-item" data-cat="web">
-            <a class="p-thumb" style="background-image:url('images/webcam-ui.png'), url('images/webcam-thumb.svg')" href="webcam.html" title="Webcam Capture" target="_blank" rel="noopener"></a>
-            <div class="p-body">
-              <h3 class="p-title">Webcam Capture</h3>
-              <p class="p-desc">เว็บเพจทดลองใช้งานกล้องเว็บแคมผ่านเบราว์เซอร์ รองรับการแคปภาพแบบเรียลไทม์</p>
-              <div class="p-tags">
-                <span class="p-tag">HTML5</span><span class="p-tag">Media API</span><span class="p-tag">JavaScript</span>
-              </div>
-              <div class="p-actions">
-                <a href="https://github.com/bfirstkok/Webcam_Capture" class="alt" target="_blank" rel="noopener" title="GitHub Repository">Repo</a>
-              </div>
-            </div>
-          </article>
+      if (avatarImg) {
+        avatarImg.addEventListener('load', () => {
+          avatarFallback?.classList.add('hidden');
+        });
 
-          <article class="p-item" data-cat="game">
-            <div class="p-thumb" style="background-image:url('images/snake-game-ui.png'), url('images/snake-game-thumb.svg')" title="Snake Game (ต้อง deploy หรือรันในเครื่อง)"></div>
-            <div class="p-body">
-              <h3 class="p-title">Snake Game (Django)</h3>
-              <p class="p-desc">เกมงูแบบโต้ตอบ รันด้วย Django + Canvas</p>
-              <div class="p-tags">
-                <span class="p-tag">Django</span><span class="p-tag">HTML</span><span class="p-tag">CSS</span>
-              </div>
-              <div class="p-actions">
-                <a href="https://github.com/bfirstkok/web_snakegmae" class="alt" target="_blank" rel="noopener" title="GitHub Repository">Repo</a>
-              </div>
-            </div>
-          </article>
+        avatarImg.addEventListener('error', () => {
+          avatarImg.style.display = 'none';
+          avatarFallback?.classList.remove('hidden');
+        });
 
-          <article class="p-item" data-cat="web">
-            <div class="p-thumb" style="background-image:url('images/dino-forum-ui.png'), url('images/dino-forum-thumb.svg')"></div>
-            <div class="p-body">
-              <h3 class="p-title">Dino Forum</h3>
-              <p class="p-desc">ระบบเว็บฟอรัมสนทนา รองรับสมาชิก โปรไฟล์ ค้นหา Trending และ Redis Caching</p>
-              <div class="p-tags">
-                <span class="p-tag">Django</span><span class="p-tag">Bootstrap 5</span><span class="p-tag">Redis</span>
-              </div>
-              <div class="p-actions">
-                <a href="https://github.com/bfirstkok/mini-forum" class="alt" target="_blank" rel="noopener" title="GitHub Repository">Repo</a>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </div>
-  </section>
+        if (avatarImg.complete && avatarImg.naturalWidth > 0) {
+          avatarFallback?.classList.add('hidden');
+        }
+      }
+
+      const buttons = document.querySelectorAll('.filter-btn');
+      const items = document.querySelectorAll('.project-item');
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.dataset.filter;
+
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          items.forEach(item => {
+            const categories = (item.dataset.cat || '').split(',').map(v => v.trim());
+
+            if (filter === 'all' || categories.includes(filter)) {
+              item.classList.remove('hidden');
+            } else {
+              item.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      const revealItems = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      revealItems.forEach(el => {
+        if (!el.classList.contains('show')) observer.observe(el);
+      });
+
+      const navLinks = document.querySelectorAll('.dock .pbtn');
+      const sections = [...document.querySelectorAll('section[id], header[id]')];
+
+      const setActiveNav = () => {
+        let currentId = 'top';
+
+        sections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 160 && rect.bottom >= 160) {
+            currentId = section.id;
+          }
+        });
+
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          link.classList.toggle('active', href === `#${currentId}`);
+        });
+      };
+
+      window.addEventListener('scroll', setActiveNav, { passive: true });
+      setActiveNav();
+    });
+  </script>
 </body>
 </html>
