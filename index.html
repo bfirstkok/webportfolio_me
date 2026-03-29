@@ -2173,7 +2173,9 @@
 
       // Set default music on page load
       function loadDefaultMusic() {
-        audioPlayer.src = './Music/Laibaht%20BGM%20(128%20kbps).mp3';
+        // Use encodeURI to properly encode the path with spaces
+        const musicPath = encodeURI('./Music/Laibaht BGM (128 kbps).mp3');
+        audioPlayer.src = musicPath;
       }
 
       // Load default music when page loads
