@@ -2171,6 +2171,19 @@
       const pauseBtn = document.getElementById('pauseBtn');
       const stopBtn = document.getElementById('stopBtn');
 
+      // Set default music on page load
+      function loadDefaultMusic() {
+        audioPlayer.src = './Music/Laibaht%20BGM%20(128%20kbps).mp3';
+      }
+
+      // Load default music when page loads
+      if (audioPlayer.readyState === 0) {
+        audioPlayer.addEventListener('canplay', updateButtonStates, { once: true });
+        loadDefaultMusic();
+      } else {
+        loadDefaultMusic();
+      }
+
       // Handle file selection
       audioFile.addEventListener('change', (e) => {
         const file = e.target.files[0];
