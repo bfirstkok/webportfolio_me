@@ -156,6 +156,77 @@
       box-shadow:var(--glow);
     }
 
+    .lang-selector{
+      position:fixed;
+      top:18px;
+      right:18px;
+      z-index:101;
+    }
+
+    .lang-btn{
+      width:52px;
+      height:52px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      border-radius:16px;
+      backdrop-filter:blur(12px);
+      box-shadow:var(--shadow);
+      color:var(--text);
+      cursor:pointer;
+      font-size:18px;
+      transition:all var(--transition);
+    }
+
+    .lang-btn:hover{
+      transform:translateY(-4px);
+      color:var(--primary);
+      box-shadow:var(--glow);
+      border-color:rgba(0,229,255,.18);
+    }
+
+    .lang-dropdown{
+      position:absolute;
+      top:calc(100% + 10px);
+      right:0;
+      background:rgba(10,14,24,.95);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:14px;
+      backdrop-filter:blur(12px);
+      box-shadow:0 12px 34px rgba(0,0,0,.42);
+      display:none;
+      flex-direction:column;
+      gap:4px;
+      padding:8px;
+      z-index:102;
+      min-width:180px;
+    }
+
+    .lang-dropdown.active{
+      display:flex;
+    }
+
+    .lang-option{
+      padding:10px 14px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:10px;
+      color:var(--text);
+      cursor:pointer;
+      font-size:13px;
+      font-weight:500;
+      transition:all var(--transition);
+      text-align:left;
+    }
+
+    .lang-option:hover{
+      background:rgba(0,229,255,.15);
+      border-color:rgba(0,229,255,.30);
+      color:var(--primary);
+      transform:translateX(4px);
+    }
+
     .hero{
       position:relative;
       min-height:100vh;
@@ -808,6 +879,15 @@
         border-radius:20px;
         backdrop-filter:blur(12px);
       }
+
+      .lang-selector{
+        top:12px;
+        right:12px;
+      }
+
+      .lang-dropdown{
+        right:-10px;
+      }
     }
 
     @media (max-width: 640px){
@@ -862,6 +942,22 @@
     <a class="pbtn" href="#projects" title="Projects"><i class="bi bi-window"></i></a>
     <a class="pbtn" href="#contact" title="Contact"><i class="bi bi-envelope"></i></a>
   </nav>
+
+  <!-- Language Switcher -->
+  <div class="lang-selector">
+    <button class="lang-btn" id="langBtn" title="Change Language">
+      <i class="bi bi-globe2"></i>
+    </button>
+    <div class="lang-dropdown" id="langDropdown">
+      <button class="lang-option" data-lang="th">🇹🇭 ไทย</button>
+      <button class="lang-option" data-lang="en">🇬🇧 English</button>
+      <button class="lang-option" data-lang="fr">🇫🇷 Français</button>
+      <button class="lang-option" data-lang="de">🇩🇪 Deutsch</button>
+      <button class="lang-option" data-lang="ru">🇷🇺 Русский</button>
+      <button class="lang-option" data-lang="ja">🇯🇵 日本語</button>
+      <button class="lang-option" data-lang="zh">🇨🇳 中文</button>
+    </div>
+  </div>
 
   <header id="top" class="hero">
     <div class="hero-inner reveal show">
@@ -1313,6 +1409,43 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Language Switcher
+      const langBtn = document.getElementById('langBtn');
+      const langDropdown = document.getElementById('langDropdown');
+      const langOptions = document.querySelectorAll('.lang-option');
+
+      langBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langDropdown.classList.toggle('active');
+      });
+
+      document.addEventListener('click', () => {
+        langDropdown.classList.remove('active');
+      });
+
+      langOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          const lang = option.dataset.lang;
+          
+          if (lang === 'th') {
+            // Reset to Thai
+            location.href = window.location.pathname;
+          } else {
+            // Redirect to Google Translate
+            const langMap = {
+              'en': 'en',
+              'fr': 'fr',
+              'de': 'de',
+              'ru': 'ru',
+              'ja': 'ja',
+              'zh': 'zh-CN'
+            };
+            const url = `https://translate.google.com/translate?hl=${langMap[lang]}&sl=th&u=${encodeURIComponent(window.location.href)}`;
+            window.location.href = url;
+          }
+        });
+      });
+
       const avatarImg = document.getElementById('mePhoto');
       const avatarFallback = document.getElementById('avatarFallback');
 
