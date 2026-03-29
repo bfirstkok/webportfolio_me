@@ -2156,18 +2156,29 @@
 
       // Set default music on page load
       function loadDefaultMusic() {
-        // Use encodeURI to properly encode the path with spaces
-        const musicPath = encodeURI('./Music/Laibaht BGM (128 kbps).mp3');
+        // Use absolute path from GitHub Pages root
+        const baseUrl = window.location.pathname.includes('/webportfolio_me/') 
+          ? '/webportfolio_me/' 
+          : './';
+        const musicPath = baseUrl + 'Music/Laibaht%20BGM%20(128%20kbps).mp3';
         audioPlayer.src = musicPath;
+        console.log('Loading music from:', musicPath);
       }
 
-      // Load default music when page loads
-      if (audioPlayer.readyState === 0) {
-        audioPlayer.addEventListener('canplay', updateButtonStates, { once: true });
+      // Load default music on page load (but don't auto-play due to browser policy)
+      loadDefaultMusic();
+      
+      // Try to play when user first interacts
+      function enableAutoplay() {
         loadDefaultMusic();
-      } else {
-        loadDefaultMusic();
+        audioPlayer.play().catch(err => {
+          console.log('Autoplay blocked:', err);
+        });
+        document.removeEventListener('click', enableAutoplay);
       }
+      
+      // Allow autoplay after first user click
+      document.addEventListener('click', enableAutoplay, { once: true });
 
       // Handle file selection
       audioFile.addEventListener('change', (e) => {
