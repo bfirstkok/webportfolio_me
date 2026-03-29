@@ -2159,26 +2159,31 @@
       function loadDefaultMusic() {
         // Use absolute path from GitHub Pages root
         const baseUrl = window.location.pathname.includes('/webportfolio_me/') 
-          ? '/webportfolio_me/' 
-          : './';
-        const musicPath = baseUrl + 'Music/Laibaht%20BGM%20(128%20kbps).mp3';
-        audioPlayer.src = musicPath;
-        console.log('Loading music from:', musicPath);
+          ? '/webportfolio_me/Music/' 
+          : './Music/';
+        // Use encodeURIComponent to properly encode the filename with spaces and special chars
+        const filename = 'Laibaht BGM (128 kbps).mp3';
+        const encodedPath = baseUrl + encodeURIComponent(filename);
+        audioPlayer.src = encodedPath;
+        console.log('Loading music from:', encodedPath);
       }
 
       // Load default music on page load (but don't auto-play due to browser policy)
       loadDefaultMusic();
       
-      // Try to play when user first interacts
+      // Try to play when user first interacts (only once)
+      let autoplayAttempted = false;
       function enableAutoplay() {
-        loadDefaultMusic();
-        audioPlayer.play().catch(err => {
-          console.log('Autoplay blocked:', err);
-        });
+        if (!autoplayAttempted && audioPlayer.src) {
+          autoplayAttempted = true;
+          audioPlayer.play().catch(err => {
+            console.log('Autoplay blocked by browser policy:', err);
+          });
+        }
         document.removeEventListener('click', enableAutoplay);
       }
       
-      // Allow autoplay after first user click
+      // Allow autoplay after first user click anywhere on page
       document.addEventListener('click', enableAutoplay, { once: true });
 
       // Handle file selection
@@ -2193,19 +2198,30 @@
       });
 
       // Play button
-      playBtn.addEventListener('click', () => {
-        audioPlayer.play();
-        updateButtonStates();
+      playBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!audioPlayer.src) {
+          console.warn('No music loaded yet');
+          return;
+        }
+        audioPlayer.play().then(() => {
+          console.log('Playing music');
+          updateButtonStates();
+        }).catch(err => {
+          console.error('Error playing music:', err);
+        });
       });
 
       // Pause button
-      pauseBtn.addEventListener('click', () => {
+      pauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         audioPlayer.pause();
         updateButtonStates();
       });
 
       // Stop button
-      stopBtn.addEventListener('click', () => {
+      stopBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         audioPlayer.pause();
         audioPlayer.currentTime = 0;
         updateButtonStates();
