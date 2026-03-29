@@ -2161,8 +2161,8 @@
         const baseUrl = window.location.pathname.includes('/webportfolio_me/') 
           ? '/webportfolio_me/Music/' 
           : './Music/';
-        // Use encodeURIComponent to properly encode the filename with spaces and special chars
-        const filename = 'Laibaht BGM (128 kbps).mp3';
+        // Correct filename with dash and space at the beginning
+        const filename = '- Laibaht BGM (128 kbps).mp3';
         const encodedPath = baseUrl + encodeURIComponent(filename);
         audioPlayer.src = encodedPath;
         console.log('Loading music from:', encodedPath);
