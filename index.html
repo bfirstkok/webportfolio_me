@@ -1429,11 +1429,12 @@
   <div class="music-player">
     <h3>🎵 Music Player</h3>
     <input type="file" id="audioFile" accept="audio/mp3,audio/mpeg" title="Select MP3 file">
-    <p style="margin: 6px 0; font-size: 11px; color: var(--muted);">Default: Laibaht BGM ▶️</p>
+    <p id="musicTitle" style="margin: 6px 0; font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Default: Laibaht BGM ▶️</p>
     <audio id="audioPlayer" controls></audio>
     <div class="music-controls">
       <button class="music-btn" id="playBtn" title="Play"><i class="bi bi-play-fill"></i> Play</button>
       <button class="music-btn" id="pauseBtn" title="Pause"><i class="bi bi-pause-fill"></i> Pause</button>
+      <button class="music-btn" id="nextBtn" title="Next"><i class="bi bi-skip-forward-fill"></i> Next</button>
       <button class="music-btn" id="stopBtn" title="Stop"><i class="bi bi-stop-fill"></i> Stop</button>
     </div>
   </div>
@@ -2154,21 +2155,123 @@
       const playBtn = document.getElementById('playBtn');
       const pauseBtn = document.getElementById('pauseBtn');
       const stopBtn = document.getElementById('stopBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const musicTitle = document.getElementById('musicTitle');
+
+      // Playlist of all available songs
+      const playlist = [
+        "- Laibaht BGM (128 kbps).mp3",
+        "- โดยที่เธอไม่รู้ 😽 - Aisha [ Official Music Video ] (128 kbps).mp3",
+        "Akame Ga kill OP 2 Liar Mask Full.mp3",
+        "Anime Youjo Senki Opening HD.mp3",
+        "BABYMETAL - Catch Me If You Can「かくれんぼ」Full Live compilation.mp3",
+        "BABYMETAL - PA PA YA!! (feat. F.HERO)  (OFFICIAL).mp3",
+        "Boku no Hero Academia Season 3 opening Full『UVERworld - ODD FUTURE』(ENG SUB).mp3",
+        "DELUTAYA - HAPPY SYNTHESIZER (COVER) WITH ROMAJI LYRICS.mp3",
+        "Drifters Opening.mp3",
+        "Gawr Gura Sings - Resist And Bite by Sabaton (Unarchived Karaoke 81721).mp3",
+        "Gawr Gura sings Country Roads.mp3",
+        "Gouhouteki Tobikata No Susume (合法的トビ方ノススメ) Creepy Nuts Laibaht Cover.mp3",
+        "High School Fleet AMV- High Free Spirits(Trysail).mp3",
+        "Hiroyuki Sawano feat. Laco『THE ANSWER』Music Video from『８６―エイティシックス―』.mp3",
+        "Holidays!／角巻わため【original】.mp3",
+        "hololive Fantasy - Ahoy!!我ら宝鐘海賊団☆／ホロライブ3期生 3D Hololive Sings.mp3",
+        "Kizuna AI - Sky High (Prod. Yunomi)【Official Music Video】.mp3",
+        "Konna Sekai, Shiritakunakatta Akame Ga Kill English Arabic sub.mp3",
+        "Kureiji Ollie Boba Shop Rap MV Avilon - Speed Kanauru Original.mp3",
+        "Larc-en-ciel - Daybreaks bell (Gundam 00 OP - Vocal Cover)｜Ron Williams.mp3",
+        "Log Horizon 2 ending 1080p.mp3",
+        "Love The Way You Lie HØRI Cover ft. Athelia.mp3",
+        "mayday,mayday／角巻わため【original】.mp3",
+        "MindaRyn - Like Flames (TVアニメ『転生したらスライムだった件 第2期』オープニング主題歌 第二弾) _ Music Video (128 kbps).mp3",
+        "Mirai Nikki op 1 full.mp3",
+        "Mobile Suit Gundam Iron-Blooded Orphans – Ending Theme 1 – Orphans no Namida.mp3",
+        "Mobile Suit Gundam Iron-Blooded Orphans – Opening Theme 1 – Raise your flag.mp3",
+        "Mobile Suit Gundam Iron-Blooded Orphans – Opening Theme 2 – Survivor.mp3",
+        "Old Town Road [cover].mp3",
+        "Overlord – Opening Theme – Clattanoia.mp3",
+        "Qualidea Code Opening Full『LiSA - Brave Freak Out』.mp3",
+        "Qualidea Code OpOpening 60fps Brave Freak Out by LiSA.mp3",
+        "Sabaton - Ghost Division (Music Video) (128 kbps).mp3",
+        "Sabaton - The Price of a Mile (Subtitles) (128 kbps).mp3",
+        "SawanoHiroyuki[nZk]Honoka Takahashi『LilaS』×TVアニメ「８６―エイティシックス―」Collaboration Movie.mp3",
+        "SawanoHiroyuki[nZk]Laco「Hands Up to the Sky」Music Video ８６―エイティシックス― ver..mp3",
+        "SawanoHiroyuki[nZk]Laco「Hands Up to the Sky」×TVアニメ「８６―エイティシックス―」Collaboration Movie.mp3",
+        "SawanoHiroyuki[nZk]mizuki「Avid」×TVアニメ「８６―エイティシックス―」Collaboration Movie.mp3",
+        "Seiken Tsukai no World Break Opening 1.mp3",
+        "Survive Said The Prophet - MUKANJYO _ Official Music Video (128 kbps).mp3",
+        "Sword Art Online - Opening 1 _ 4K _ 60FPS _ Creditless _ (128 kbps).mp3",
+        "TVアニメ「８６―エイティシックス―」オープニング映像／ヒトリエ「3分29秒」.mp3",
+        "Valkyrie Drive _Mermaid_ Ending full.mp3",
+        "X2Download.com - FREE CUTE INTRO MUSIC (NON-COPYRIGHT) _ Peachy Grace (128 kbps).mp3",
+        "YOASOBI「三原色」Official Music Video.mp3",
+        "YOASOBI「祝福」Official Music Video (『機動戦士ガンダム 水星の魔女』オープニングテーマ) (128 kbps).mp3",
+        "Youjo Senki「Los! Los! Los!」FULL - German ver. Selphius.mp3",
+        "[COVER] Nyans not hot!.mp3",
+        "[Hololive] AZKi ร้องเพลง neko naraba ikeru.mp3",
+        "[MV] ロキ Roki (English Rap Cover) - Calliope Mori.mp3",
+        "[Original Rap] DEAD BEATS - Calliope Mori holoMyth hololiveEnglish.mp3",
+        "[ORIGINAL SONG] Cursed Night - Calliope Mori.mp3",
+        "[ORIGINAL SONG] 失礼しますが、RIP♡ \"Excuse My Rudeness, But Could You Please RIP\" - Calliope Mori.mp3",
+        "[ORIGINAL] REFLECT - Gawr Gura.mp3",
+        "[Uru - Freesia ]Gundam IRON-BLOODED ORPHANS Ending 4 Full 1 Hour Extended.mp3",
+        "【30分耐久BGM】2_23 AM _ しゃろう【公式】 (128 kbps) (1).mp3",
+        "【Ado】阿修羅ちゃん.mp3",
+        "【Animation MV】 My song 角巻わため 【original】.mp3",
+        "【COVER】KING - Kanaria【Tsunomaki Watame】.mp3",
+        "【Hoshimachi Suisei】Suisei Singing UNRAVEL from OP Tokyo Ghoul (Real Version).mp3",
+        "【Miku Hatsune】Alien Alien - Eng Sub【Nayutalien】.mp3",
+        "【ORIGINAL MV】PLAY DICE! HAKOS BAELZ.mp3",
+        "【ORIGINAL SONG MV】「Q」- Calliope Mori x Gawr Gura x DECO27.mp3",
+        "【original】あくあ色ぱれっと【ホロライブ湊あくあ】.mp3",
+        "【original】きらきら／湊あくあ【アニメーションMV】.mp3",
+        "【original】ヨーコソ！Sweet Carnival！【横須賀フェステーマソング】.mp3",
+        "【Umapyoi Densetsu_馬兒蹦跳傳說】 (128 kbps).mp3",
+        "【แปลไทย】Mori Calliope - Shitsureishimasuka, RIP♡ (Hololive เพลงออริจินอล).mp3",
+        "【แปลไทย】Pekora x Miko - Peko Miko Daisenso (Hololive เพลงออริจินอล).mp3",
+        "【侵略されて】エイリアンエイリアン 歌ってみた - ときのそら【踊ってみた】.mp3",
+        "【公式】PENICILLIN「ロマンス」(MV)【8thシングル】ペニシリンRomance.mp3",
+        "【劇場版機動戦士ガンダム00】UVERworld - クオリア (SARAH cover) Mobile Suit Gundam 00 A wakening of the Trailblazer.mp3",
+        "【化物語】supercell - 君の知らない物語 (SARAH cover) Bakemonogatari.mp3",
+        "【機動戦士ガンダム00】the brilliant green - Ash Like Snow (SARAH cover) Mobile Suit Gundam 00 OP.mp3",
+        "【機動戦士ガンダム00】ステファニー - フレンズ (SARAH cover) Mobile Suit Gundam 00 ED.mp3",
+        "【機動戦士ガンダムSEED】See-Saw - あんなに一緒だったのに (SARAH cover) 【リクエスト】.mp3",
+        "【歌ってみた】シェーマ Covered by 久檻夜くぅ【Chinozo】.mp3",
+        "〜「永遠の盾」この国を守りし者〜日本軍・自衛隊 (128 kbps).mp3",
+        "ウマ娘 『Exercise the Right』 キングヘイロー (128 kbps).mp3",
+        "ロキ／鏡音リン・みきとP ｜ROKI／Kagamine Ron・mikitoP (128 kbps).mp3",
+        "＜ノラガミARAGOTO＞OPテーマ  THE ORAL CIGARETTES「狂乱 Hey Kids!!」MusicVideo (128 kbps).mp3"
+      ];
+
+      let currentTrackIndex = 0;
+      let isPlaylistMode = false;
+
+      // Get current base URL for music directory
+      function getMusicBaseUrl() {
+        return window.location.pathname.includes('/webportfolio_me/') 
+          ? '/webportfolio_me/Music/' 
+          : './Music/';
+      }
+
+      // Load and play a track from playlist
+      function loadPlaylistTrack(index) {
+        if (index < 0 || index >= playlist.length) index = 0;
+        currentTrackIndex = index;
+        const filename = playlist[index];
+        const musicPath = getMusicBaseUrl() + encodeURIComponent(filename);
+        audioPlayer.src = musicPath;
+        // Get display name (remove leading dash and spaces)
+        let displayName = filename.replace(/^-\s*/, '').replace(/\.mp3$/i, '');
+        musicTitle.textContent = `Now: ${displayName}`;
+        console.log('Loaded track:', filename);
+        isPlaylistMode = true;
+      }
 
       // Set default music on page load
       function loadDefaultMusic() {
-        // Use absolute path from GitHub Pages root
-        const baseUrl = window.location.pathname.includes('/webportfolio_me/') 
-          ? '/webportfolio_me/Music/' 
-          : './Music/';
-        // Correct filename with dash and space at the beginning
-        const filename = '- Laibaht BGM (128 kbps).mp3';
-        const encodedPath = baseUrl + encodeURIComponent(filename);
-        audioPlayer.src = encodedPath;
-        console.log('Loading music from:', encodedPath);
+        loadPlaylistTrack(0);
       }
 
-      // Load default music on page load (but don't auto-play due to browser policy)
       loadDefaultMusic();
       
       // Try to play when user first interacts (only once)
@@ -2192,8 +2295,10 @@
         if (file) {
           const url = URL.createObjectURL(file);
           audioPlayer.src = url;
+          musicTitle.textContent = `File: ${file.name}`;
           audioPlayer.play();
           updateButtonStates();
+          isPlaylistMode = false;
         }
       });
 
@@ -2219,12 +2324,41 @@
         updateButtonStates();
       });
 
+      // Next/Skip button
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isPlaylistMode) {
+          const nextIndex = (currentTrackIndex + 1) % playlist.length;
+          loadPlaylistTrack(nextIndex);
+          audioPlayer.play().catch(err => {
+            console.error('Error playing next track:', err);
+          });
+          updateButtonStates();
+        } else {
+          console.log('No playlist loaded, switch to playlist mode');
+          loadPlaylistTrack(0);
+          audioPlayer.play();
+        }
+      });
+
       // Stop button
       stopBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         audioPlayer.pause();
         audioPlayer.currentTime = 0;
         updateButtonStates();
+      });
+
+      // Auto-play next track when current finishes
+      audioPlayer.addEventListener('ended', () => {
+        if (isPlaylistMode) {
+          console.log('Track ended, loading next...');
+          const nextIndex = (currentTrackIndex + 1) % playlist.length;
+          loadPlaylistTrack(nextIndex);
+          audioPlayer.play().catch(err => {
+            console.error('Error auto-playing next track:', err);
+          });
+        }
       });
 
       // Update button states
